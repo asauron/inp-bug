@@ -45,7 +45,7 @@ public class CodeTable {
         byteCode.put("LOAD", "LoadCode");
         byteCode.put("LIT", "debugByteCodes.DebugLitCode");
         byteCode.put("ARGS", "ArgsCode");
-        byteCode.put("CALL", "CallCode");
+        byteCode.put("CALL", "debugByteCodes.DebugCallCode");
         byteCode.put("RETURN", "debugByteCodes.DebugReturnCode");
         byteCode.put("BOP", "BopCode");
         byteCode.put("READ", "ReadCode");

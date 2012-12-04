@@ -22,9 +22,11 @@ public class DebugReturnCode extends ReturnCode {
 
     @Override
      public void execute(VirtualMachine vm) {
-        super.execute(vm);
+      
         debugVM dvm = (debugVM) vm;
         dvm.popFER();
+        //System.out.println("popped in return");
+          super.execute(vm);
     }
     
 }

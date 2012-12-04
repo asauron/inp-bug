@@ -25,7 +25,7 @@ public class LineCode extends ByteCode {
 
     public void execute(VirtualMachine vm) {
         debugVM dvm = (debugVM) vm;
-        dvm.setCurrentLine(lineNumber);
+        dvm.setStartedLine(lineNumber);
     }
     
     @Override

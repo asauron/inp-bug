@@ -27,7 +27,7 @@ public class FormalCode extends ByteCode  {
 
     public void execute(VirtualMachine vm) {
         debugVM dvm = (debugVM) vm;
-        dvm.enterRecord(formalCode, offset + vm.runStackSize() - 1);
+        dvm.pushRecord(formalCode, offset);
     }
     
     @Override

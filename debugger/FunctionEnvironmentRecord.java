@@ -33,6 +33,9 @@ public class FunctionEnvironmentRecord {
     public FunctionEnvironmentRecord() {
         table = new SymbolTable();
         // table.beginScope();
+               startLine = new Integer(-1);
+		endLine = new Integer(-1);
+		currentLine = new Integer(-1);
     }
 
    /* public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -169,14 +172,37 @@ public class FunctionEnvironmentRecord {
     }
     
     public String  vars() {
-		String args = "";
+		String variables = "";
+              //  System.out.println("in FER");
 
 		for (String symbol : table.keys()) {
-			args += symbol + ": " + table.get(symbol) + "\n";
+			variables += symbol + ": " + table.get(symbol) + "\n";
 		}
 
-		return args;
+		return variables;
 	}
+
+    void finishedLine(int lineNumber) {
+        //throw new UnsupportedOperationException("Not yet implemented");
+        currentLine = lineNumber;
+    }
+
+    void enterSymbol(String id, int offset) {
+        //throw new UnsupportedOperationException("Not yet implemented");
+        table.put(id,offset);
+    }
+
+    void popSymbol(int n) {
+        //throw new UnsupportedOperationException("Not yet implemented");
+        table.endScope(n);  
+    }
+    
+    public Integer getValue(String symbol){
+        return (Integer)table.get(symbol);
+        
+    }
+    
+
 
    
 }
@@ -257,6 +283,8 @@ class SymbolTable {
      public int get(String key) {
 	int e = (Integer) symbols.get(key).getValue();
 	return e;
+         //Binder e = symbols.get(key);
+         //return e.getValue();
   }
 
     /**
@@ -280,7 +308,7 @@ class SymbolTable {
 
     /**
      * Restores the table to what it was at the most recent beginScope * that
-     * has not already been cnded.
+     * has not already been ended.
      */
     //public void endScope(){}
     public void endScope(int pop) {

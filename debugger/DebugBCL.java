@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author asauron
  */
 public class DebugBCL  {
-    private ArrayList<BreakPointList> sourceCode;
+    private ArrayList<String> sourceCode;
     private ByteCodeLoader bcl;
  
 

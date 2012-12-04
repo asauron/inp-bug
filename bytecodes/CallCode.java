@@ -10,8 +10,8 @@ import java.util.*;
  */
 public class CallCode extends ByteCode {
 
-    private int labelAddress;
-    private String callArg;
+    protected int labelAddress;
+    protected String callArg;
     int numArgs;
     String arg;
 
@@ -35,6 +35,8 @@ public class CallCode extends ByteCode {
         vm.setReturnAddress();
         vm.setProgramCounter(labelAddress - 1);
         numArgs = vm.getNumArgs();
+        
+        
     }
 
     

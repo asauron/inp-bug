@@ -44,7 +44,8 @@ public class Interpreter {
                 debugger.run();
             }
             catch(Exception e) {
-                System.out.println(e);
+               // System.out.println(e);
+                e.printStackTrace();
             }
         }
         else {

@@ -7,6 +7,7 @@ package interpreter.bytecodes.debugByteCodes;
 import interpreter.VirtualMachine;
 import interpreter.bytecodes.CallCode;
 import interpreter.debugger.debugVM;
+import java.util.ArrayList;
 /**
  *
  * @author asauron
@@ -18,13 +19,35 @@ public class DebugCallCode extends CallCode {
         throw new UnsupportedOperationException("Not supported yet.");
     }*/
 
+    public void init(ArrayList<String> args) {
+        callArg = args.get(0);
+
+    }
+    
     @Override
     public void execute(VirtualMachine vm) {
        // throw new UnsupportedOperationException("Not supported yet.");
-        super.execute(vm);
-       // debugVM dVM = (debugVM)vm;
-        //dVM.addFunction();
-        
+          
+       debugVM dVM = (debugVM)vm;
+     //  System.out.println("pushing function");
+        dVM.addFunction();
+         super.execute(vm);
+    
+    }
+      @Override
+    public String toString() {
+      return callArg;
+
+    }
+    
+       @Override
+    public void setLabelAddress(int address) {
+        labelAddress = address;
+    }
+
+    @Override
+    public String labelValue() {
+        return callArg;
     }
 
    

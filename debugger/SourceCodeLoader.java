@@ -16,16 +16,16 @@ import java.util.ArrayList;
  */
 public class SourceCodeLoader {
     
-    public static ArrayList<BreakPointList> read(String sourceFile) throws IOException {
+    public static ArrayList<String> read(String sourceFile) throws IOException {
         BufferedReader file = new BufferedReader(new FileReader(sourceFile));
-        ArrayList<BreakPointList> sourceLines = new ArrayList<BreakPointList>();
+        ArrayList<String> sourceLines = new ArrayList<String>();
         String nextLine = file.readLine();
 
        //intiating the arraylist , doesn't do anything 
-        sourceLines.add(new BreakPointList(" ", false));
+        sourceLines.add(" ");
         //reading until the EOF is reached 
         while(nextLine != null) {
-            sourceLines.add(new BreakPointList(nextLine, false));
+            sourceLines.add(nextLine);
             nextLine = file.readLine();
         }
 

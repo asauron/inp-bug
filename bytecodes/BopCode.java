@@ -13,6 +13,8 @@ public class BopCode extends ByteCode {
     private String bopArg;
 
     public void init(ArrayList<String> args) {
+        if(args.get(0)== null)
+            System.out.println("no args");
         bopArg = args.get(0);
     }
 

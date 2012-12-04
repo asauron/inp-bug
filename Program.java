@@ -48,7 +48,8 @@ public class Program {
         for (ByteCode b : codeLines) {
             if (b.getClass().getSimpleName().equals("FalseBranchCode")
                     || b.getClass().getSimpleName().equals("GotoCode")
-                    || b.getClass().getSimpleName().equals("CallCode")) {
+                    || b.getClass().getSimpleName().equals("CallCode")
+                    ||b.getClass().getSimpleName().equals("DebugCallCode")) {
                 //||b.getClass().getSimpleName().equals("DebugCallCode")) {
                 // Setting the label address to the argument supported by it 
                 b.setLabelAddress(labelAddress.get(b.labelValue()));
