@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  *
  * @author asauron
- * Loads the source code onto a 
+ * Loads the source code onto an arrayList to be read
  */
 public class SourceCodeLoader {
     

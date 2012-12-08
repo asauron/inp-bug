@@ -41,11 +41,12 @@ public class CodeTable {
         byteCode.put("POP", "debugByteCodes.DebugPopCode");
         byteCode.put("FALSEBRANCH", "FalseBranchCode");
         byteCode.put("GOTO", "GotoCode");
-        byteCode.put("STORE", "StoreCode");
+        byteCode.put("STORE", "debugByteCodes.DebugStoreCode");
         byteCode.put("LOAD", "LoadCode");
         byteCode.put("LIT", "debugByteCodes.DebugLitCode");
         byteCode.put("ARGS", "ArgsCode");
-        byteCode.put("CALL", "debugByteCodes.DebugCallCode");
+       byteCode.put("CALL", "debugByteCodes.DebugCallCode");
+        //byteCode.put("CALL", "CallCode");
         byteCode.put("RETURN", "debugByteCodes.DebugReturnCode");
         byteCode.put("BOP", "BopCode");
         byteCode.put("READ", "ReadCode");

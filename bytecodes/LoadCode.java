@@ -28,6 +28,7 @@ public class LoadCode extends ByteCode {
         int offset = Integer.parseInt(loadArgs.get(0));
         //offset n from the start of the frame 
         //top of the stack
+       // System.out.println("the value is "+ offset);
         vm.load(offset);
     }
 

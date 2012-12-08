@@ -24,6 +24,7 @@ public class UI {
         dvm = virtualMachine;
         String command = null;
 
+
         //dvm.displaySourceCode();
         System.out.println("Debugger: type '?' for commands.");
 
@@ -38,11 +39,13 @@ public class UI {
 
     public static void readInput() {
         String command = null;
-        dvm.displaySourceCode();
-        //  dvm.displayFunctionSource();
+
+        System.out.println(dvm.displaySourceCode());
+
         while (dvm.isBP() && dvm.isRunning()) {
             // System.out.println("breakpoint: " + dvm.isBP());
             try {
+
                 System.out.print(">> ");
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
                 command = input.readLine().toLowerCase();
@@ -66,19 +69,19 @@ public class UI {
         helpMenu += "sof            - step out of current activation of frame\n";
         helpMenu += "si             - step into                      \n";
         helpMenu += "so             - step over                       \n";
-        helpMenu += "cv             - change values of local variables \n";
-        helpMenu += "wv             - watch variables                   \n";
-        helpMenu += "is             - insert statement                   \n";
-        helpMenu += "lr             - replace line                       \n";
-        helpMenu += "new            - preview changed source code        \n";
-        helpMenu += "df             - display function source             \n";
-        helpMenu += "q              - quits execution                     \n";
+        helpMenu += "cv             - change values of local variables\n";
+        helpMenu += "wv             - watch variables <line> <var>      \n";
+        helpMenu += "is             - insert statement <line> <value>    \n";
+        helpMenu += "lr             - replace line   <line> <value>       \n";
+        helpMenu += "new            - preview changed source code      \n";
+        helpMenu += "df             - display function source           \n";
+        helpMenu += "q              - quits execution                   \n";
         helpMenu += "halt           - quit execution                    \n";
         System.out.println(helpMenu);
     }
     //reads in the user command and executes it
 
-    private static void executeCommand(String command) {
+    private static void executeCommand(String command) throws IOException {
         String arg = "";
         if (command.split(" ").length > 1) {
             arg = command.split(" ", 2)[1];
@@ -99,10 +102,10 @@ public class UI {
         } else if (command.matches("clr") && arg.matches("[\\d+\\s*]+")) {
             clearBreakPoints(arg);
         } else if (command.matches("src")) {
-            dvm.displaySourceCode();
+            System.out.println(dvm.displaySourceCode());
         } else if (command.matches("var")) {
             displayVariables();
-        } else if (command.startsWith("q")) {
+        } else if (command.startsWith("q") || command.startsWith("halt")) {
             quit();
         } else if (command.startsWith("sof")) {
             stepOut();
@@ -113,16 +116,15 @@ public class UI {
         } else if (command.startsWith("cv")) {
             changeVariables(arg);
         } else if (command.startsWith("wv")) {
-            watchVariables();
+            watchVariables(arg);
         } else if (command.startsWith("is")) {
             insertStatement(arg);
         } else if (command.startsWith("lr")) {
             replaceLine(arg);
-            
+
         } else if (command.startsWith("new")) {
             previewChanges();
-        }
-        else if (command.startsWith("df")) {
+        } else if (command.startsWith("df")) {
             displayFunction();
         } else {
             System.out.println("Command does not exist; type '?' to get a list of avalible commands.");
@@ -136,7 +138,7 @@ public class UI {
             int lineNum = Integer.parseInt(line);
             //checking if a breakpoint has been set at that line
             if (lineNum <= dvm.getSize()) {
-                dvm.removeBP(lineNum);
+                System.out.println(dvm.removeBP(lineNum));
             } else {
                 System.out.println("Sorry, line " + lineNum + " does not exist");
             }
@@ -148,8 +150,7 @@ public class UI {
     //Continues execution
     private static void contExecution() {
         dvm.setBP(false);
-        //dvm.displayFunctionSource();
-        //dvm.setWaitingForBreakpoint(true);
+
     }
 
     //Displays the current variables in the environment stack
@@ -158,7 +159,26 @@ public class UI {
     }
 
     //stops execution
-    private static void quit() {
+    private static void quit() throws IOException {
+        if (dvm.hasChanged()) {
+            System.out.println("Changes were made to the program, do you want to save the changes? (y/n)");
+            System.out.println(">> ");
+            BufferedReader news = new BufferedReader(new InputStreamReader(System.in));
+            String answer = news.readLine().toLowerCase();
+            if (answer.startsWith("y")) {
+                System.out.println("Enter a filename");
+                System.out.println(">> ");
+                BufferedReader file;
+                file = new BufferedReader(new InputStreamReader(System.in));
+                String filename = file.readLine().toLowerCase();
+                dvm.saveChanges(filename);
+
+                System.out.println("your changes were successfully saved");
+
+            } else {
+                System.out.println("Exiting program");
+            }
+        }
         dvm.stopRunning();
         stop = true;
     }
@@ -193,52 +213,67 @@ public class UI {
 
     private static void stepOut() {
         //throw new UnsupportedOperationException("Not yet implemented");
+        dvm.tempN = dvm.n - 1;
         dvm.stepOut();
-        dvm.displaySourceCode();
+
     }
 
     private static void stepIn() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        // throw new UnsupportedOperationException("Not yet implemented");
+        dvm.stepIn();
+        // dvm.displayFunctionSource();
     }
 
     private static void stepOver() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        //  throw new UnsupportedOperationException("Not yet implemented");
+        // int line =  dvm.getCurrentLine();
+        dvm.lineNumber = dvm.getCurrentLine();
+        dvm.stepOver();
+        // dvm.stepOver();
+        //dvm.displayFunctionSource();
     }
 
     private static void changeVariables(String arg) {
-      String id = arg.split(" ")[0];
-      String value = arg.split(" ")[1];
-      int number = Integer.parseInt(value);
-      String change = dvm.changeValue(id, number);
-      System.out.println(change);
-      System.out.println("The variables now are");
-      dvm.showVariables();
+        String id = arg.split(" ")[0];
+        String value = arg.split(" ")[1];
+        int number = Integer.parseInt(value);
+        String change = dvm.changeValue(id, number);
+        System.out.println(change);
+        System.out.println("The variables now are");
+        dvm.showVariables();
 
     }
 
-    private static void watchVariables() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    private static void watchVariables(String arg) {
+
+        // throw new UnsupportedOperationException("Not yet implemented");
+        String line = arg.split(" ")[0];
+        String variable = arg.split(" ")[1];
+        int lineNum = Integer.parseInt(line);
+
+      System.out.println(dvm.watchVariables(variable, lineNum));
+
     }
 
     private static void insertStatement(String arg) {
-       // System.out.println(arg);
+
         String id = arg.split(" ")[0];
-        String value = arg.split(" ")[1];
+
         int line = Integer.parseInt(id);
-        //System.out.println(line+" "+ value);
-        dvm.insertStatement(line,value);
-      //  String news = arg[3];
-       // System.out.println(id+" "+value);
-        
-        //throw new UnsupportedOperationException("Not yet implemented");
+        String news = arg.split(" ", 2)[1];
+
+        System.out.println(dvm.insertStatement(line, news));
+
+
     }
 
     private static void replaceLine(String arg) {
         //throw new UnsupportedOperationException("Not yet implemented");
-          String id = arg.split(" ")[0];
-        String value = arg.split(" ")[1];
+        String id = arg.split(" ")[0];
+        String value = arg.split(" ", 2)[1];
         int line = Integer.parseInt(id);
-        dvm.replaceStatement(line,value);
+        System.out.println(dvm.replaceStatement(line, value));
+    
     }
 
     private static void displayFunction() {
@@ -247,9 +282,7 @@ public class UI {
     }
 
     private static void previewChanges() {
-       // throw new UnsupportedOperationException("Not yet implemented");
+        // throw new UnsupportedOperationException("Not yet implemented");
         System.out.println(dvm.displayChanges());
     }
-    
-    
 }

@@ -110,8 +110,8 @@ public class RunTimeStack {
     public int load(int offset) {
         int temp = runTimeStack.get(framePointers.peek() + offset);
         runTimeStack.add(temp);
-        return offset;
-        //  return runStack.get(runStack.size() - 1);
+       return offset;
+       //  return runTimeStack.get(runTimeStack.size() - 1);
     }
     
    //Returning object i
@@ -120,7 +120,7 @@ public class RunTimeStack {
          return i;
     }
 
-    int peekFrame() {
+   public int peekFrame() {
         return framePointers.peek();
         //throw new UnsupportedOperationException("Not yet implemented");
     }

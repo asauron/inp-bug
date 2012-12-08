@@ -27,19 +27,19 @@ public class DebugCallCode extends CallCode {
     @Override
     public void execute(VirtualMachine vm) {
        // throw new UnsupportedOperationException("Not supported yet.");
-          
+        super.execute(vm);  
        debugVM dVM = (debugVM)vm;
      //  System.out.println("pushing function");
         dVM.addFunction();
-         super.execute(vm);
+         
     
     }
       @Override
     public String toString() {
-      return callArg;
+      return "CALL";
 
     }
-    
+ /*   
        @Override
     public void setLabelAddress(int address) {
         labelAddress = address;
@@ -48,7 +48,7 @@ public class DebugCallCode extends CallCode {
     @Override
     public String labelValue() {
         return callArg;
-    }
+    }*/
 
    
     

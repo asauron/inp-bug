@@ -30,6 +30,7 @@ public class FunctionCode extends ByteCode {
     @Override
     public void execute(VirtualMachine vm) {
         debugVM dvm = (debugVM) vm;
+       // System.out.println("function bytecode");
         dvm.setLines(start, end);
         dvm.setFuncName(funcName);
     }

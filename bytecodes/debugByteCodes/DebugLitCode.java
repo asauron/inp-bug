@@ -15,13 +15,13 @@ import java.util.ArrayList;
  */
 public class DebugLitCode extends LitCode {
 
-    private String offset;
+    private String value;
     private String id;
 
     public void init(ArrayList<String> args) {
         super.init(args);
 
-        offset = args.get(0);
+        value = args.get(0);
 
         if (args.size() > 1) {
             id = args.get(1);
@@ -32,11 +32,13 @@ public class DebugLitCode extends LitCode {
     public void execute(VirtualMachine vm) {
         super.execute(vm);
         debugVM dvm = (debugVM) vm;
+      // System.out.println("this "+id+" is going into my table"+ value);
         if (id != null && id.length() > 0) {
-            (dvm).enterRecord(id, Integer.parseInt(offset));
-        } else {
+            (dvm).enterRecord(id, Integer.parseInt(value));
+          //  dvm.enterRecord(id,(Integer)(vm.runStackSize()-1-(vm.peekFrame())));
+        } /*else {
             (dvm).enterRecord("", Integer.parseInt(offset));
-        }
+        }*/
 
     }
 

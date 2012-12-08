@@ -21,13 +21,13 @@ public class FormalCode extends ByteCode  {
     public void init(ArrayList<String> args) {
        // throw new UnsupportedOperationException("Not supported yet.");
         formalCode = args.get(0);
-        offset = Integer.parseInt(args.get(1));
+        offset = Integer.parseInt(args.get(1)); //the value 
         
     }
 
     public void execute(VirtualMachine vm) {
         debugVM dvm = (debugVM) vm;
-        dvm.pushRecord(formalCode, offset);
+        dvm.pushRecord(formalCode, offset); // the value 
     }
     
     @Override

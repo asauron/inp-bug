@@ -42,9 +42,9 @@ public class VirtualMachine {
             code.execute(this);
         //    System.out.println(code.toString()); label does get called here!
             //Dump the values in the stack when dump is turned on
-          /* if (dumpValue) {
+          // if (dumpValue) {
                 prettyDump(code);
-            }*/
+          //  }
          pc++;  //incrementing the program counter 
         }
 
@@ -145,6 +145,11 @@ public class VirtualMachine {
     public void popFrame() {
         runTimeStack.popFrame();
     }
+    
+    //new method
+    public int peekFrame(){
+       return runTimeStack.peekFrame();
+    }
 
     public int store(int offset) {
         return runTimeStack.store(offset);
@@ -197,5 +202,9 @@ public class VirtualMachine {
      public void stopRunning() {
         isRunning = false;
     }
+     
+     public int runStackGet(int i) {
+        return runTimeStack.get(i);
+     }
 
 }

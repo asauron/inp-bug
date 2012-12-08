@@ -11,6 +11,7 @@ import java.util.*;
 public class StoreCode extends ByteCode {
     private ArrayList<String> storeCodeArgs = new ArrayList<String>();
     int top;
+    int value;
 
     @Override
     public void init(ArrayList<String> args) {
@@ -31,7 +32,23 @@ public class StoreCode extends ByteCode {
 
         vm.store(offset);
         top = vm.peek();
+        value = vm.runStackGet(offset);
+        
+        
     }
+    
+    public String getThisName(){
+       String name = storeCodeArgs.get(1);
+        return name;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public int getThisValue() {
+		return value;
+	}
 
     
 }

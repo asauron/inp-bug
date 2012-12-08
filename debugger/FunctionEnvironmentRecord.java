@@ -119,7 +119,7 @@ public class FunctionEnvironmentRecord {
         return functionName;
     }
 
-    private void showDump() {
+    public void showDump() {
         // throw new UnsupportedOperationException("Not yet implemented");
         String output =  new String();
         output += "(" +"<" + table.getName() + ">,";
@@ -156,10 +156,11 @@ public class FunctionEnvironmentRecord {
         table.put(formalCode,offset);
     }
 
-    int getVariableOffset(String var) {
+  /*  int getVariableOffset(String var) {
        // throw new UnsupportedOperationException("Not yet implemented");
           return table.get(var);
-    }
+    
+    }*/
 
     Set<String> getVariables() {
        // throw new UnsupportedOperationException("Not yet implemented");
@@ -173,13 +174,23 @@ public class FunctionEnvironmentRecord {
     
     public String  vars() {
 		String variables = "";
-              //  System.out.println("in FER");
+             //  System.out.println("in FER");
 
 		for (String symbol : table.keys()) {
-			variables += symbol + ": " + table.get(symbol) + "\n";
+			//variables += symbol + ": " + table.get(symbol) + "\n";
+                    variables += symbol + " " + table.get(symbol) + " ";
+                    //    run
+                      //  System.out.println(variables);
 		}
 
 		return variables;
+                
+	}
+    
+    	public boolean containsString(String symbol) {
+		  return (table.get(symbol) != null);
+                 
+        
 	}
 
     void finishedLine(int lineNumber) {
@@ -190,6 +201,9 @@ public class FunctionEnvironmentRecord {
     void enterSymbol(String id, int offset) {
         //throw new UnsupportedOperationException("Not yet implemented");
         table.put(id,offset);
+          
+         //   showDump();
+   
     }
 
     void popSymbol(int n) {
@@ -280,12 +294,12 @@ class SymbolTable {
         return e.getValue();
     }*/
     
-     public int get(String key) {
+   /*  public int get(String key) {
 	int e = (Integer) symbols.get(key).getValue();
 	return e;
          //Binder e = symbols.get(key);
          //return e.getValue();
-  }
+  }*/
 
     /**
      * Puts the specified value into the Table, bound to the specified
@@ -300,6 +314,15 @@ class SymbolTable {
 
     /*Remembers the current state ofthe Table; 
      * push new mark on mark stack */
+    
+    public Object get(String key) {
+		Binder e = symbols.get(key);
+		if (e != null) {
+			return e.getValue();
+		}
+		return null;
+	}
+    
     public void beginScope() {
         // marks = new Binder(null,top,marks);
         top = null;
